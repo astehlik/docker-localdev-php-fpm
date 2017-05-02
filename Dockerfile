@@ -16,6 +16,7 @@ RUN apt-get update \
 		php-xdebug \
 		php-mbstring \
 		php-apcu \
+		php-intl \
 		imagemagick \
 		language-pack-de \
 	&& groupadd -g 1000 localuser \
