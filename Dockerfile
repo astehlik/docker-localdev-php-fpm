@@ -23,6 +23,8 @@ RUN apt-get update \
 		php7.1-intl \
 		imagemagick \
 		language-pack-de \
+		openssh-client \
+		rsync \
 	&& groupadd -g 1000 localuser \
 	&& useradd -u 1000 -g 1000 -m localuser \
 
