@@ -27,7 +27,7 @@ RUN apt-get update \
 
 	&& sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/7.0/fpm/php-fpm.conf \
 
-	&& apt-get --purge autoremove \
+	&& apt-get --purge -y autoremove \
 	&& apt-get autoclean \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
