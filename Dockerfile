@@ -19,6 +19,9 @@ RUN apt-get update \
 		php-intl \
 		imagemagick \
 		language-pack-de \
+		openssh-client \
+		rsync \
+		mysql-client \
 	&& groupadd -g 1000 localuser \
 	&& useradd -u 1000 -g 1000 -m localuser \
 
