@@ -5,8 +5,9 @@ RUN apt-get update \
 	&& apt-get install -y software-properties-common \
 	&& export LANG=C.UTF-8 \
 	&& add-apt-repository -y ppa:ondrej/php \
-	&& apt-get update -y \
-	&& apt-get install -y \
+	&& apt-get update -y
+
+RUN apt-get install -y \
 		php7.2-soap \
 		php7.2-json \
 		php7.2-mysql \
@@ -21,20 +22,26 @@ RUN apt-get update \
 		php7.2-apcu \
 		php7.2-intl \
 		php7.2-dev \
+		php-xdebug \
 		imagemagick \
 		language-pack-de \
 		openssh-client \
 		rsync \
-		mysql-client \
-	&& groupadd -g 1000 localuser \
-	&& useradd -u 1000 -g 1000 -m localuser \
+		mysql-client
 
-	&& sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/7.2/fpm/php-fpm.conf \
+RUN groupadd -g 1000 localuser \
+	&& useradd -u 1000 -g 1000 -m localuser
 
-	&& apt-get purge -y software-properties-common \
+RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/7.2/fpm/php-fpm.conf
+
+COPY install_composer.sh /tmp/install_composer.sh
+
+RUN apt-get install -y wget \
+    && bash /tmp/install_composer.sh \
+	&& mv composer.phar /usr/local/bin/
+
+RUN apt-get purge -y software-properties-common wget \
 	&& apt-get --purge -y autoremove \
 	&& apt-get autoclean \
 	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* \
-
-	&&  pecl install xdebug-2.6.0beta1
+	&& rm -rf /var/lib/apt/lists/*
