@@ -28,10 +28,16 @@ RUN apt-get update \
 		mysql-client \
 	&& groupadd -g 1000 localuser \
 	&& useradd -u 1000 -g 1000 -m localuser \
+	&& sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/5.6/fpm/php-fpm.conf
 
-	&& sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/5.6/fpm/php-fpm.conf \
+COPY install_composer.sh /tmp/install_composer.sh
 
-	&& apt-get purge -y software-properties-common python-software-properties \
+RUN apt-get install -y wget git unzip
+
+RUN bash /tmp/install_composer.sh \
+    && mv composer.phar /usr/local/bin/
+
+RUN apt-get purge -y software-properties-common python-software-properties \
 	&& apt-get --purge -y autoremove \
 	&& apt-get autoclean \
 	&& apt-get clean \
