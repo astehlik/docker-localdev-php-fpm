@@ -1,11 +1,11 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 RUN apt-get update \
 	&& apt-get dist-upgrade -y \
-	&& apt-get install -y software-properties-common \
 	&& export LANG=C.UTF-8 \
-	&& add-apt-repository -y ppa:ondrej/php \
 	&& apt-get update -y
+
+RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 RUN apt-get install -y \
 		php7.2-soap \
