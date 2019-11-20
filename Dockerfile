@@ -21,6 +21,7 @@ RUN apt-get install -y \
 		php7.2-mbstring \
 		php7.2-apcu \
 		php7.2-intl \
+		php7.2-igbinary \
 		php7.2-dev \
 		php-xdebug \
 		imagemagick \
