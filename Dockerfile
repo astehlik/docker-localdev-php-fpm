@@ -1,28 +1,32 @@
 FROM ubuntu:18.04
 
+ENV DEBIAN_FRONTEND noninteractive
+ENV LANG C.UTF-8
+
 RUN apt-get update \
 	&& apt-get dist-upgrade -y \
-	&& export LANG=C.UTF-8 \
+	&& apt-get install -y software-properties-common \
+	&& add-apt-repository ppa:ondrej/php \
 	&& apt-get update -y
 
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 RUN apt-get install -y \
-		php7.2-soap \
-		php7.2-json \
-		php7.2-mysql \
-		php7.2-sqlite3 \
-		php7.2-zip \
-		php7.2-pgsql \
-		php7.2-gd \
-		php7.2-xml \
-		php7.2-curl \
-		php7.2-fpm \
-		php7.2-mbstring \
-		php7.2-apcu \
-		php7.2-intl \
-		php7.2-igbinary \
-		php7.2-dev \
+		php7.4-soap \
+		php7.4-json \
+		php7.4-mysql \
+		php7.4-sqlite3 \
+		php7.4-zip \
+		php7.4-pgsql \
+		php7.4-gd \
+		php7.4-xml \
+		php7.4-curl \
+		php7.4-fpm \
+		php7.4-mbstring \
+		php7.4-apcu \
+		php7.4-intl \
+		php7.4-igbinary \
+		php7.4-dev \
 		php-xdebug \
 		imagemagick \
 		language-pack-de \
@@ -39,7 +43,7 @@ RUN cd /opt \
 RUN groupadd -g 1000 localuser \
 	&& useradd -u 1000 -g 1000 -m localuser
 
-RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/7.2/fpm/php-fpm.conf
+RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/7.4/fpm/php-fpm.conf
 
 COPY install_composer.sh /tmp/install_composer.sh
 
