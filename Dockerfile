@@ -1,39 +1,18 @@
-FROM ubuntu:18.04
+FROM intera/docker-ci-php:8.0-ubuntu
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
 
 RUN apt-get update \
 	&& apt-get dist-upgrade -y \
-	&& apt-get install -y software-properties-common \
-	&& add-apt-repository ppa:ondrej/php \
 	&& apt-get update -y
 
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 RUN apt-get install -y \
-		php7.4-soap \
-		php7.4-json \
-		php7.4-mysql \
-		php7.4-sqlite3 \
-		php7.4-zip \
-		php7.4-pgsql \
-		php7.4-gd \
-		php7.4-xml \
-		php7.4-curl \
-		php7.4-fpm \
-		php7.4-mbstring \
-		php7.4-apcu \
-		php7.4-intl \
-		php7.4-igbinary \
-		php7.4-dev \
-		php-xdebug \
-		imagemagick \
-		language-pack-de \
-		openssh-client \
-		rsync \
-		mysql-client \
-		wget \
+		php8.0-fpm \
+		php8.0-igbinary \
+		php8.0-dev \
 		xz-utils
 
 RUN cd /opt \
@@ -43,7 +22,7 @@ RUN cd /opt \
 RUN groupadd -g 1000 localuser \
 	&& useradd -u 1000 -g 1000 -m localuser
 
-RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/7.4/fpm/php-fpm.conf
+RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/8.0/fpm/php-fpm.conf
 
 COPY install_composer.sh /tmp/install_composer.sh
 
