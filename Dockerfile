@@ -1,39 +1,24 @@
-FROM ubuntu:18.04
+ARG phpVersion="7.4"
+
+FROM intera/docker-ci-php:${phpVersion}-ubuntu
+
+# We have to provide ARG once more because it gets lost after FROM, see also:
+# https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
+ARG phpVersion
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
 
 RUN apt-get update \
 	&& apt-get dist-upgrade -y \
-	&& apt-get install -y software-properties-common \
-	&& add-apt-repository ppa:ondrej/php \
 	&& apt-get update -y
 
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 RUN apt-get install -y \
-		php7.4-soap \
-		php7.4-json \
-		php7.4-mysql \
-		php7.4-sqlite3 \
-		php7.4-zip \
-		php7.4-pgsql \
-		php7.4-gd \
-		php7.4-xml \
-		php7.4-curl \
-		php7.4-fpm \
-		php7.4-mbstring \
-		php7.4-apcu \
-		php7.4-intl \
-		php7.4-igbinary \
-		php7.4-dev \
-		php-xdebug \
-		imagemagick \
-		language-pack-de \
-		openssh-client \
-		rsync \
-		mysql-client \
-		wget \
+		php${phpVersion}-fpm \
+		php${phpVersion}-igbinary \
+		php${phpVersion}-dev \
 		xz-utils
 
 RUN cd /opt \
@@ -43,16 +28,16 @@ RUN cd /opt \
 RUN groupadd -g 1000 localuser \
 	&& useradd -u 1000 -g 1000 -m localuser
 
-RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/7.4/fpm/php-fpm.conf
+RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/${phpVersion}/fpm/php-fpm.conf
 
-COPY install_composer.sh /tmp/install_composer.sh
-
-RUN apt-get install -y wget \
-    && bash /tmp/install_composer.sh \
-	&& mv composer.phar /usr/local/bin/
-
-RUN apt-get purge -y software-properties-common wget \
-	&& apt-get --purge -y autoremove \
+RUN apt-get --purge -y autoremove \
 	&& apt-get autoclean \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
+
+# Expose ports
+EXPOSE 9000
+
+# Entry point
+ENV PHP_VERSION=$phpVersion
+ENTRYPOINT /usr/sbin/php-fpm${PHP_VERSION}
