@@ -1,4 +1,4 @@
-FROM intera/docker-ci-php:5.6-ubuntu
+FROM intera/ci-php:5.6-ubuntu
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
