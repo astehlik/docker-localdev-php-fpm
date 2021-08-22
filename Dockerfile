@@ -12,8 +12,9 @@ RUN apt-get install -y \
 		openssh-client
 
 RUN groupadd -g 1000 localuser \
-	&& useradd -u 1000 -g 1000 -m localuser \
-	&& sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/5.6/fpm/php-fpm.conf
+	&& useradd -u 1000 -g 1000 -m localuser
+
+RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/5.6/fpm/php-fpm.conf
 
 RUN apt-get --purge -y autoremove \
 	&& apt-get autoclean \
