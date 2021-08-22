@@ -24,12 +24,6 @@ RUN groupadd -g 1000 localuser \
 
 RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/8.0/fpm/php-fpm.conf
 
-COPY install_composer.sh /tmp/install_composer.sh
-
-RUN apt-get install -y wget \
-    && bash /tmp/install_composer.sh \
-	&& mv composer.phar /usr/local/bin/
-
 RUN apt-get purge -y software-properties-common wget \
 	&& apt-get --purge -y autoremove \
 	&& apt-get autoclean \
