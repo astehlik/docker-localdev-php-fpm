@@ -1,6 +1,6 @@
 ARG phpVersion="7.4"
 
-FROM intera/docker-ci-php:${phpVersion}-ubuntu
+FROM intera/ci-php:${phpVersion}-ubuntu
 
 # We have to provide ARG once more because it gets lost after FROM, see also:
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
