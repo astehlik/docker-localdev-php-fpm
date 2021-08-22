@@ -43,6 +43,4 @@ jobs:
         with:
           context: .
           push: true
-          tags:
-            - ${{ env.DOCKER_TAG }}
-          labels: []
+          tags: astehlik/localdev-php-fpm:${{ env.DOCKER_TAG }}
