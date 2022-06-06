@@ -1,4 +1,4 @@
-FROM intera/ci-php:8.0-ubuntu
+FROM intera/ci-php:8.1-ubuntu
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
@@ -10,9 +10,9 @@ RUN apt-get update \
 RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 RUN apt-get install -y \
-		php8.0-fpm \
-		php8.0-igbinary \
-		php8.0-dev \
+		php8.1-fpm \
+		php8.1-igbinary \
+		php8.1-dev \
 		xz-utils
 
 RUN cd /opt \
@@ -22,7 +22,7 @@ RUN cd /opt \
 RUN groupadd -g 1000 localuser \
 	&& useradd -u 1000 -g 1000 -m localuser
 
-RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/8.0/fpm/php-fpm.conf
+RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php/8.1/fpm/php-fpm.conf
 
 RUN apt-get purge -y software-properties-common wget \
 	&& apt-get --purge -y autoremove \
